@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  background: #eef1f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: #14212b;
+  background:
+    linear-gradient(90deg, rgba(20, 33, 43, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(20, 33, 43, 0.04) 1px, transparent 1px),
+    #eef1f4;
+  background-size: 36px 36px;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(125%);
+  }
+}
+
+@keyframes pulseBar {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scaleX(0.78);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.case-preview-scan::after {
+  animation: scan 4.5s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(15, 118, 110, 0.18), transparent);
+  content: "";
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 42%;
+}
+
+.animated-bar {
+  animation: pulseBar 2.6s ease-in-out infinite;
+  transform-origin: left;
+}
