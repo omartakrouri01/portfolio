@@ -141,6 +141,7 @@ story.extend(
             "Designed Power BI dashboards and reporting layers to improve decision-making.",
             "Shifted operational discussions from intuition-based decisions toward measurable business performance.",
             "Improved visibility into field execution and maintenance activities.",
+            "Built and shipped two AI assistants now in daily production use: an email-driven complaints board and a voice-first Arabic collections assistant.",
         ],
         styles["Body"],
     )
@@ -167,6 +168,8 @@ story.extend(
 story.extend(
     [
         p("Selected Projects", styles["Section"]),
+        p("<b>Customer Complaints Board (AI):</b> Replaced a WhatsApp complaints group with an email-driven board: AI opens each ticket, extracts site, unit, department and issue with confidence scores, routes it to the right manager and tracks status from email replies. <b>+30% complaints closed rate, 90% capture rate</b>, 12 n8n workflows, idea to production in 8 weeks. React, Supabase, n8n, OpenAI, Microsoft Graph.", styles["Body"]),
+        p("<b>Al Jabi - Voice-First AI Collections Assistant:</b> Telegram bot that turns Arabic voice notes from debt collectors into confirmed Trello updates, with fuzzy client matching and an AI quality evaluation of every follow-up. <b>+25% cash collection health, +60% clients contacted per collector per day</b>; 53 of 54 spoken test queries matched first. n8n, ElevenLabs Scribe, OpenAI, Trello API.", styles["Body"]),
         p("<b>Internal Operational Intelligence Platform:</b> Built a supporting internal system to collect additional business data, integrate operational workflows, generate new KPIs, and enable improved management visibility and faster decision-making.", styles["Body"]),
         p("<b>KPI Framework for Service & Installation Operations:</b> Created end-to-end KPI structures covering sales performance, installation execution, quality metrics, safety tracking, and maintenance operations.", styles["Body"]),
         p("Education", styles["Section"]),

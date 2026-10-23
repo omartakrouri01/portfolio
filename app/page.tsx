@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ArrowDown,
+  BarChart3,
   BriefcaseBusiness,
   Check,
   Download,
@@ -11,13 +12,13 @@ import {
   Gauge,
   Linkedin,
   Mail,
-  MonitorCog,
   Phone,
   ShieldCheck,
+  Sparkles,
   X
 } from "lucide-react";
 import { CaseModal } from "@/components/CaseModal";
-import { caseStudies, selectedSystems, type CaseStudy } from "@/data/cases";
+import { aiCases, dataCases, type CaseStudy } from "@/data/cases";
 
 const approach = ["Business Understanding", "Data", "Shadow Systems", "KPI Design", "Decision Enablement"];
 
@@ -27,18 +28,23 @@ const capabilities = [
   "Power BI / DAX / SQL",
   "Dashboard Design",
   "Shadow Systems Design",
+  "LLM Integration",
+  "Human-in-the-Loop AI Design",
   "AI-Assisted Product Development",
-  "Workflow Automation",
+  "Workflow Automation (n8n)",
   "Internal Business Applications"
+];
+
+const profileStats = [
+  ["KPI Systems Built", "10+", "Dashboards, scorecards, executive displays"],
+  ["AI Systems in Production", "2", "Voice and email AI assistants used daily"],
+  ["Shadow Systems", "3+", "ERP extensions that close workflow gaps"],
+  ["Business Functions", "Sales / Maintenance / Ops / QC / Safety / Finance", "Cross-functional operational visibility"]
 ];
 
 export default function Home() {
   const [activeCase, setActiveCase] = useState<CaseStudy | null>(null);
-  const caseMap = useMemo(() => new Map(caseStudies.map((item) => [item.id, item])), []);
-
-  const openCase = (id: string) => {
-    setActiveCase(caseMap.get(id) ?? null);
-  };
+  const closeCase = useCallback(() => setActiveCase(null), []);
 
   return (
     <main className="min-h-screen">
@@ -58,7 +64,7 @@ export default function Home() {
             </div>
           </div>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-700">
-            Turning operational data into business decisions through KPI systems, internal platforms, and AI-enabled workflows.
+            Turning operational data into business decisions through KPI systems, internal platforms, and AI assistants that people use every day.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-sm font-medium text-slate-700">
             <a className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-3 py-2" href="mailto:omartakroury@gmail.com">
@@ -74,10 +80,14 @@ export default function Home() {
               LinkedIn
             </a>
           </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#impact" className="inline-flex items-center justify-center gap-2 rounded-md bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800">
-              See Business Impact
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="#data" className="inline-flex items-center justify-center gap-2 rounded-md bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800">
+              Data Analysis Projects
               <ArrowDown className="h-4 w-4" />
+            </a>
+            <a href="#ai" className="inline-flex items-center justify-center gap-2 rounded-md bg-signal px-5 py-3 text-sm font-bold text-white transition hover:bg-teal-800">
+              AI Projects
+              <Sparkles className="h-4 w-4" />
             </a>
             <a
               href="/omar-takrouri-cv.pdf"
@@ -99,13 +109,9 @@ export default function Home() {
               </div>
               <Gauge className="h-6 w-6 text-signal" />
             </div>
-            <div className="grid gap-4">
-              {[
-                ["KPI Systems Built", "10+", "Dashboards, scorecards, executive displays"],
-                ["Business Functions", "Sales / Maintenance / Ops / QC / Safety", "Cross-functional operational visibility"],
-                ["Shadow Systems", "3+", "ERP extensions that close workflow gaps"]
-              ].map(([label, value, detail]) => (
-                <div key={label} className="rounded-md border border-line bg-panel p-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {profileStats.map(([label, value, detail], index) => (
+                <div key={label} className={`rounded-md border border-line bg-panel p-4 ${index === profileStats.length - 1 ? "sm:col-span-3" : ""}`}>
                   <p className="text-sm font-semibold text-slate-500">{label}</p>
                   <p className="mt-2 text-2xl font-bold text-ink">{value}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p>
@@ -122,7 +128,7 @@ export default function Home() {
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-action">Professional Summary</p>
             <h2 className="mt-3 text-3xl font-bold text-ink">Business analytics, KPI architecture, and AI-enabled internal products</h2>
             <p className="mt-4 leading-7 text-slate-700">
-              Data & AI Specialist with 2+ years of experience in construction-related operations across elevators, escalators, and moving walkways. Focused on translating business challenges into measurable frameworks through KPI ecosystems, ERP-adjacent shadow systems, and decision support across sales, installation, planning, quality control, safety, and maintenance operations.
+              Data & AI Specialist with 2+ years of experience in construction-related operations across elevators, escalators, and moving walkways. Focused on translating business challenges into measurable frameworks through KPI ecosystems, ERP-adjacent shadow systems, and decision support across sales, installation, planning, quality control, safety, and maintenance operations. Now building production AI assistants that turn email and voice into tracked, measurable work.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -135,22 +141,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="impact" className="bg-white/78">
+      <section id="data" className="scroll-mt-4 bg-white/78">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-action">Business Impact</p>
-            <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">Systems that turned operational problems into measurable decisions</h2>
+          <div className="flex items-start gap-4">
+            <span className="mt-1 hidden rounded-md bg-ink p-2.5 text-white sm:block">
+              <BarChart3 className="h-5 w-5" />
+            </span>
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-action">Data Analysis Projects</p>
+              <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">KPI systems and analysis that turned operational problems into measurable decisions</h2>
+            </div>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {caseStudies.map((item) => (
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {dataCases.map((item) => (
               <button
                 key={item.id}
-                className="group rounded-lg border border-line bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-slate-400 hover:shadow-md"
+                className="group flex flex-col rounded-lg border border-line bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:border-slate-400 hover:shadow-md"
                 onClick={() => setActiveCase(item)}
                 type="button"
               >
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex w-full items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">{item.eyebrow}</p>
                     <h3 className="mt-2 text-xl font-bold text-ink">{item.title}</h3>
@@ -159,10 +170,10 @@ export default function Home() {
                   <Eye className="h-5 w-5 shrink-0 text-slate-400 transition group-hover:text-action" />
                 </div>
                 <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-600">{item.problem}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-auto flex flex-wrap gap-2 pt-5">
                   {item.kpis.map((kpi) => (
-                    <span key={kpi} className="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-bold text-ink">
-                      {kpi}
+                    <span key={kpi.label} className="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-bold text-ink">
+                      {kpi.value} {kpi.label}
                     </span>
                   ))}
                 </div>
@@ -172,32 +183,60 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-4 md:grid-cols-3">
-          {selectedSystems.map((system) => (
-            <button
-              key={system.title}
-              className="rounded-lg border border-line bg-white p-5 text-left shadow-sm transition hover:border-signal"
-              onClick={() => openCase(system.caseId)}
-              type="button"
-            >
-              <MonitorCog className="h-5 w-5 text-action" />
-              <h3 className="mt-4 text-lg font-bold text-ink">{system.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{system.detail}</p>
-            </button>
-          ))}
-        </div>
-      </section>
+      <section id="ai" className="scroll-mt-4 bg-ink text-white">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-4">
+            <span className="mt-1 hidden rounded-md bg-teal-400/15 p-2.5 text-teal-200 sm:block">
+              <Sparkles className="h-5 w-5" />
+            </span>
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-teal-200">AI Projects</p>
+              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">AI assistants in production, built around how people already work</h2>
+              <p className="mt-4 leading-7 text-slate-300">
+                The AI reads, people confirm, code decides. Each system keeps a human in the loop and measures its own results.
+              </p>
+            </div>
+          </div>
 
-      <section className="bg-ink text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-teal-200">Approach</p>
-          <div className="mt-8 grid gap-3 md:grid-cols-5">
-            {approach.map((step, index) => (
-              <div key={step} className="rounded-lg border border-white/15 bg-white/8 p-4">
-                <p className="text-sm font-bold text-teal-200">0{index + 1}</p>
-                <h3 className="mt-3 text-lg font-bold">{step}</h3>
-              </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            {aiCases.map((item) => (
+              <button
+                key={item.id}
+                className="group flex flex-col rounded-lg border border-white/15 bg-white/[0.06] p-6 text-left transition hover:-translate-y-1 hover:border-teal-300/60 hover:bg-white/[0.09]"
+                onClick={() => setActiveCase(item)}
+                type="button"
+              >
+                <div className="flex w-full items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{item.eyebrow}</p>
+                    <h3 className="mt-2 text-2xl font-bold">{item.title}</h3>
+                    <p className="mt-1 text-sm font-semibold text-teal-200">{item.systemType}</p>
+                  </div>
+                  <Eye className="h-5 w-5 shrink-0 text-slate-500 transition group-hover:text-teal-200" />
+                </div>
+
+                <div className="mt-6 grid w-full grid-cols-2 gap-3">
+                  {item.kpis.map((kpi, index) => (
+                    <div
+                      key={kpi.label}
+                      className={`rounded-md border p-4 ${index < 2 ? "border-teal-300/40 bg-teal-400/10" : "border-white/10 bg-white/[0.04]"}`}
+                    >
+                      <p className={`font-bold ${index < 2 ? "text-4xl text-teal-200" : "text-2xl text-white"}`}>{kpi.value}</p>
+                      <p className="mt-1 text-sm leading-5 text-slate-300">{kpi.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-6 text-sm leading-6 text-slate-300">{item.problem}</p>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{item.flow}</p>
+                <div className="mt-auto flex flex-wrap gap-1.5 pt-5">
+                  {item.stack?.map((tool) => (
+                    <span key={tool} className="rounded bg-white/10 px-2 py-1 text-xs font-semibold text-slate-200">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </button>
             ))}
           </div>
         </div>
@@ -216,7 +255,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-line bg-white">
+      <section className="bg-ink text-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-teal-200">Approach</p>
+          <div className="mt-8 grid gap-3 md:grid-cols-5">
+            {approach.map((step, index) => (
+              <div key={step} className="rounded-lg border border-white/15 bg-white/8 p-4">
+                <p className="text-sm font-bold text-teal-200">0{index + 1}</p>
+                <h3 className="mt-3 text-lg font-bold">{step}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-line bg-white">
         <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 md:grid-cols-2 lg:px-8">
           <div className="rounded-lg border border-line bg-panel p-5">
             <BriefcaseBusiness className="h-5 w-5 text-action" />
@@ -233,14 +286,14 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-line bg-white">
+      <footer className="bg-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <span>Omar Takrouri - Data & AI Specialist</span>
-          <span>Mock data only - Built for recruiter review</span>
+          <span>All dashboards and screens shown use mock data</span>
         </div>
       </footer>
 
-      <CaseModal caseStudy={activeCase} onClose={() => setActiveCase(null)} />
+      <CaseModal caseStudy={activeCase} onClose={closeCase} />
     </main>
   );
 }

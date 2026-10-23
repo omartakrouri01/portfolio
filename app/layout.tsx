@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Business Impact Portfolio | Data & AI Specialist",
-  description: "A business impact case study system for KPI systems, operational intelligence, shadow systems, and AI-enabled workflows."
+  metadataBase: new URL("https://portfolio-sigma-umber-60.vercel.app"),
+  title: "Omar Takrouri | Data & AI Specialist",
+  description:
+    "Portfolio of Omar Takrouri: data analysis projects (KPI systems, executive dashboards, retention analysis) and AI projects in production (an email-driven complaints board and a voice-first Arabic collections assistant).",
+  openGraph: {
+    title: "Omar Takrouri | Data & AI Specialist",
+    description: "Data analysis projects and AI systems in production, with measured business impact.",
+    images: ["/images/omar-photo.jpg"]
+  }
 };
 
 export default function RootLayout({
